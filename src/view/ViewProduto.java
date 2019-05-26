@@ -5,7 +5,6 @@
  */
 package view;
 
-import Util.Formatador;
 import controller.ControllerProduto;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
@@ -20,11 +19,10 @@ import model.ModelProduto;
  * @author Wendel
  */
 public class ViewProduto extends javax.swing.JFrame {
-    
+
     ArrayList<ModelProduto> listaModelProdutos = new ArrayList<>();
     ControllerProduto controllerProduto = new ControllerProduto();
     ModelProduto modelProduto = new ModelProduto();
-    Formatador formatador = new Formatador();
     String salvarAlterar;
 
     /**
@@ -35,7 +33,7 @@ public class ViewProduto extends javax.swing.JFrame {
         preencheTabelaProduto();
         setLocationRelativeTo(null);
         habilitarDesabilitarCampos(false);
-        
+
     }
 
     /**
@@ -67,6 +65,7 @@ public class ViewProduto extends javax.swing.JFrame {
         jButtonAlterar = new javax.swing.JButton();
         jButtonSalvar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jButtonRelProdutos = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MANUTEÇÃO DE PRODUTOS");
@@ -229,6 +228,13 @@ public class ViewProduto extends javax.swing.JFrame {
             }
         });
 
+        jButtonRelProdutos.setText("REL. PRODUTOS");
+        jButtonRelProdutos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRelProdutosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -241,7 +247,9 @@ public class ViewProduto extends javax.swing.JFrame {
                         .addComponent(jButtonNovo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonCancelar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 181, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonRelProdutos, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonSalvar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButtonAlterar)
@@ -254,14 +262,15 @@ public class ViewProduto extends javax.swing.JFrame {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButtonSalvar)
                         .addComponent(jButtonAlterar)
                         .addComponent(jButton1))
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButtonNovo)
-                        .addComponent(jButtonCancelar)))
+                        .addComponent(jButtonCancelar))
+                    .addComponent(jButtonRelProdutos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(0, 34, Short.MAX_VALUE))
         );
 
@@ -285,22 +294,22 @@ public class ViewProduto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSalvarActionPerformed
-         if(salvarAlterar.equals("salvar")){
-             this.salvarProduto();
-         }else if(salvarAlterar.equals("alterar")){
-             this.alteraProduto();
-         }
+        if (salvarAlterar.equals("salvar")) {
+            this.salvarProduto();
+        } else if (salvarAlterar.equals("alterar")) {
+            this.alteraProduto();
+        }
     }//GEN-LAST:event_jButtonSalvarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Exclui produto no banco
         int linha = jTableProduto.getSelectedRow();
         int codigoProduto = (int) jTableProduto.getValueAt(linha, 0);
-        if(controllerProduto.excluirProdutoController(codigoProduto)){
+        if (controllerProduto.excluirProdutoController(codigoProduto)) {
             JOptionPane.showMessageDialog(this, "PRODUTO EXCLUÍDO COM SUCESSO!", "MANUTENÇÃO DE PRODUTO", JOptionPane.INFORMATION_MESSAGE);
             preencheTabelaProduto();
             habilitarDesabilitarCampos(false);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "ERRO AO EXCLUIR PRODUTO!", "MANUTENÇÃO DE PRODUTO", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -313,7 +322,7 @@ public class ViewProduto extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonNovoActionPerformed
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
-       //desabilita e limpa os campos
+        //desabilita e limpa os campos
         salvarAlterar = "salvar";
         this.habilitarDesabilitarCampos(false);
         this.limparCampos();
@@ -323,7 +332,7 @@ public class ViewProduto extends javax.swing.JFrame {
         //Pega os dados da tabela e seta nos campos para a edição
         salvarAlterar = "alterar";
         int linha = this.jTableProduto.getSelectedRow();
-        try{
+        try {
             int codigoProduto = (int) this.jTableProduto.getValueAt(linha, 0);
             //Recuperando dados do banco
             modelProduto = controllerProduto.retornarProdutoController(codigoProduto);
@@ -333,7 +342,7 @@ public class ViewProduto extends javax.swing.JFrame {
             this.jTextFieldEstoque.setText(String.valueOf(modelProduto.getProEstoque()));
             this.jTextFieldValor.setText(String.valueOf(modelProduto.getProValor()));
             habilitarDesabilitarCampos(true);
-        }catch(Exception e){
+        } catch (Exception e) {
             habilitarDesabilitarCampos(false);
             JOptionPane.showMessageDialog(this, "CÓDIGO INVÁLIDO OU NENHUM REGISTRO SELECIONADO!", "MANUTENÇÃO DE PRODUTO", JOptionPane.ERROR_MESSAGE);
         }
@@ -347,6 +356,24 @@ public class ViewProduto extends javax.swing.JFrame {
         String textoPesquisa = this.jTextFieldPesquisar.getText();
         classificador.setRowFilter(RowFilter.regexFilter(textoPesquisa.toUpperCase(), 1));
     }//GEN-LAST:event_jButtonPesquisarActionPerformed
+
+    private void jButtonRelProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRelProdutosActionPerformed
+        
+        final ViewAguarde viewAguarde = new ViewAguarde();
+        viewAguarde.setVisible(true);
+        Thread t = new Thread() {
+
+            public void run() {
+                try {
+                    controllerProduto.gerarRelatorioProdutos();
+                    viewAguarde.dispose();
+                } catch (Exception e) {
+                     JOptionPane.showMessageDialog(null, "ERRO AO IMPRIMIR RELATÓRIO!\n" + e.getMessage(), "MANUTENÇÃO DE PRODUTOS", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        };
+        t.start();
+    }//GEN-LAST:event_jButtonRelProdutosActionPerformed
 
     /**
      * @param args the command line arguments
@@ -383,71 +410,74 @@ public class ViewProduto extends javax.swing.JFrame {
             }
         });
     }
-    
+
     /**
      * Salva um produto no banco
      */
-    private void salvarProduto(){
+    private void salvarProduto() {
         // Salva produto no banco
         modelProduto.setProNome(this.jTextFieldNome.getText());
         modelProduto.setProEstoque(Integer.parseInt(this.jTextFieldEstoque.getText()));
-        modelProduto.setProValor(formatador.converteVirgulaParaPonto(this.jTextFieldValor.getText()));
-        
-        if(controllerProduto.salvarProdutoController(modelProduto) > 0){
+        //modelProduto.setProValor(formatador.converteVirgulaParaPonto(this.jTextFieldValor.getText()));
+        modelProduto.setProValor(Double.parseDouble(this.jTextFieldValor.getText().replace(',', '.')));
+
+        if (controllerProduto.salvarProdutoController(modelProduto) > 0) {
             JOptionPane.showMessageDialog(this, "PRODUTO CADASTRADO COM SUCESSO!", "MANUTENÇÃO DE PRODUTO", JOptionPane.INFORMATION_MESSAGE);
             this.preencheTabelaProduto();
             this.limparCampos();
             this.habilitarDesabilitarCampos(false);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "ERRO AO CADASTRAR PRODUTO!", "MANUTENÇÃO DE PRODUTO", JOptionPane.ERROR_MESSAGE);
-        }  
+        }
     }
-    
+
     /**
      * Aletera produto no banco
      */
-    private void alteraProduto(){
+    private void alteraProduto() {
         // Altera um produto no banco
         modelProduto.setProNome(this.jTextFieldNome.getText());
         modelProduto.setProEstoque(Integer.parseInt(this.jTextFieldEstoque.getText()));
-        modelProduto.setProValor(formatador.converteVirgulaParaPonto(this.jTextFieldValor.getText()));
-        
-        if(controllerProduto.alteraProdutoController(modelProduto)){
+        //modelProduto.setProValor(formatador.converteVirgulaParaPonto(this.jTextFieldValor.getText()));
+        modelProduto.setProValor(Double.parseDouble(this.jTextFieldValor.getText().replace(',', '.')));
+
+        if (controllerProduto.alteraProdutoController(modelProduto)) {
             JOptionPane.showMessageDialog(this, "PRODUTO ALTERADO COM SUCESSO!", "MANUTENÇÃO DE PRODUTO", JOptionPane.INFORMATION_MESSAGE);
             this.preencheTabelaProduto();
             this.limparCampos();
             this.habilitarDesabilitarCampos(false);
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "ERRO AO ALTERAR PRODUTO!", "MANUTENÇÃO DE PRODUTO", JOptionPane.ERROR_MESSAGE);
-        }  
+        }
     }
-    
+
     /**
      * Habilita ou desabilita os campos para edição no formulário
-     * @param condicao 
+     *
+     * @param condicao
      */
-    private void habilitarDesabilitarCampos(boolean condicao){
+    private void habilitarDesabilitarCampos(boolean condicao) {
         this.jTextFieldNome.setEnabled(condicao);
         this.jTextFieldEstoque.setEnabled(condicao);
         this.jTextFieldValor.setEnabled(condicao);
         this.jButtonSalvar.setEnabled(condicao);
         this.jButtonCancelar.setEnabled(condicao);
     }
-    
+
     /**
      * Limpa todo os campos do formulário
      */
-    private void limparCampos(){
+    private void limparCampos() {
         this.jTextFieldCodigo.setText("");
         this.jTextFieldNome.setText("");
         this.jTextFieldEstoque.setText("");
         this.jTextFieldValor.setText("");
     }
-    
+
     /**
      * Preenche a tabela com a lista de produtos
      */
-    private void preencheTabelaProduto(){
+    private void preencheTabelaProduto() {
         listaModelProdutos = controllerProduto.retornarListaProdutoController();
         DefaultTableModel modelo = (DefaultTableModel) jTableProduto.getModel();
         modelo.setNumRows(0);
@@ -461,7 +491,7 @@ public class ViewProduto extends javax.swing.JFrame {
                 listaModelProdutos.get(i).getProValor()
             });
         }
-        
+
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -470,6 +500,7 @@ public class ViewProduto extends javax.swing.JFrame {
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonNovo;
     private javax.swing.JButton jButtonPesquisar;
+    private javax.swing.JButton jButtonRelProdutos;
     private javax.swing.JButton jButtonSalvar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

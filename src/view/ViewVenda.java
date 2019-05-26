@@ -108,6 +108,7 @@ public class ViewVenda extends javax.swing.JFrame {
         jTableVendas = new javax.swing.JTable();
         jButtonExcluir = new javax.swing.JButton();
         jButtonAlterar = new javax.swing.JButton();
+        jButtonImpVenda = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("MANUTENÇÃO DE VENDAS");
@@ -354,7 +355,7 @@ public class ViewVenda extends javax.swing.JFrame {
 
             },
             new String [] {
-                "CÓDIGO", "NOME DO CLIENTE", "DATA DA VENDA"
+                "N. DA VENDA", "NOME DO CLIENTE", "DATA DA VENDA"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -392,6 +393,13 @@ public class ViewVenda extends javax.swing.JFrame {
             }
         });
 
+        jButtonImpVenda.setText("Imprimir Venda");
+        jButtonImpVenda.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonImpVendaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -408,11 +416,12 @@ public class ViewVenda extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jButtonPesquisar)))
                         .addGap(0, 97, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jButtonAlterar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButtonExcluir)))
+                        .addComponent(jButtonExcluir)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonImpVenda, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -430,7 +439,8 @@ public class ViewVenda extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonExcluir)
-                    .addComponent(jButtonAlterar))
+                    .addComponent(jButtonAlterar)
+                    .addComponent(jButtonImpVenda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -552,13 +562,13 @@ public class ViewVenda extends javax.swing.JFrame {
             }
             //Altera e excluir produtos da venda INICIO
             //--------------------------------------------
-            
-            if(controllerVenda.atualizarVendaController(modelVenda)){
+
+            if (controllerVenda.atualizarVendaController(modelVenda)) {
                 JOptionPane.showMessageDialog(this, "VENDA ALTERADA COM SUCESSO!", "MANUTENÇÃO DE VENDAS", JOptionPane.INFORMATION_MESSAGE);
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "ERRO AO ALTERAR VENDA!", "MANUTENÇÃO DE VENDAS", JOptionPane.ERROR_MESSAGE);
             }
-             //adicionar produtos na lista para salvar
+            //adicionar produtos na lista para salvar
             int cont = jTableProdutosVenda.getRowCount();
             for (int i = 0; i < cont; i++) {
                 codigoProduto = (int) jTableProdutosVenda.getValueAt(i, 0);
@@ -578,13 +588,13 @@ public class ViewVenda extends javax.swing.JFrame {
                 listaModelProdutos.add(modelProduto);
 
             }
-            
+
             //salvar produtos da venda
-            if(controllerVendasProdutos.salvarVendasProdutosController(listaModelVendasProdutos)){
+            if (controllerVendasProdutos.salvarVendasProdutosController(listaModelVendasProdutos)) {
 //                JOptionPane.showMessageDialog(this, "PRODUTOS DA VENDA SALVO COM SUCESSO!", "MANUTENÇÃO DE VENDAS", JOptionPane.INFORMATION_MESSAGE);
                 carregarVendas();
                 limpaFormulario();
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(this, "ERRO AO SALVAR PRODUTOS DA VENDA!", "MANUTENÇÃO DE VENDAS", JOptionPane.ERROR_MESSAGE);
             }
 
@@ -702,7 +712,7 @@ public class ViewVenda extends javax.swing.JFrame {
 
     private void uJComboBoxNomeProdutoPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_uJComboBoxNomeProdutoPopupMenuWillBecomeInvisible
         // TODO add your handling code here:
-         if (uJComboBoxNomeProduto.isPopupVisible()) {
+        if (uJComboBoxNomeProduto.isPopupVisible()) {
             preencherComboboxProduto();
         }
     }//GEN-LAST:event_uJComboBoxNomeProdutoPopupMenuWillBecomeInvisible
@@ -713,6 +723,25 @@ public class ViewVenda extends javax.swing.JFrame {
             preencherComboboxCliente();
         }
     }//GEN-LAST:event_uJComboBoxNomeClientePopupMenuWillBecomeInvisible
+
+    private void jButtonImpVendaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImpVendaActionPerformed
+        int linha = jTableVendas.getSelectedRow();
+        int codigoVenda = (int) jTableVendas.getValueAt(linha, 0);
+        final ViewAguarde viewAguarde = new ViewAguarde();
+        viewAguarde.setVisible(true);
+        Thread t = new Thread() {
+            public void run() {
+                //Método de impressão
+                try {
+                    controllerVenda.gerarRelatorioVenda(codigoVenda);
+                    viewAguarde.dispose();
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "ERRO AO IMPRIMIR RELATÓRIO!\n" + e.getMessage(), "MANUTENÇÃO DE VENDAS", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        };
+        t.start();
+    }//GEN-LAST:event_jButtonImpVendaActionPerformed
 
     /**
      * Limpa os dados do formulário
@@ -841,6 +870,7 @@ public class ViewVenda extends javax.swing.JFrame {
     private javax.swing.JButton jButtonAlterar;
     private javax.swing.JButton jButtonCancelar;
     private javax.swing.JButton jButtonExcluir;
+    private javax.swing.JButton jButtonImpVenda;
     private javax.swing.JButton jButtonNovo;
     private javax.swing.JButton jButtonPesquisar;
     private javax.swing.JButton jButtonSalvar;

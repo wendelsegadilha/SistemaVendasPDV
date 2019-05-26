@@ -3,12 +3,15 @@ package controller;
 import model.ModelVenda;
 import DAO.DAOVenda;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
 *
 * @author Wendel Segadilha
 */
 public class ControllerVenda {
+
+   
 
     private DAOVenda daoVenda = new DAOVenda();
 
@@ -55,5 +58,13 @@ public class ControllerVenda {
     */
     public boolean excluirVendaController(int pIdVenda){
         return this.daoVenda.excluirVendaDAO(pIdVenda);
+    }
+
+    public boolean gerarRelatorioVenda(int codigoVenda) {
+        return this.daoVenda.gerarRelatorioVenda(codigoVenda);
+    }
+    
+     public boolean gerarRelVendasPeriodo(Date data) {
+        return this.daoVenda.gerarRelVendasPeriodo(data); 
     }
 }

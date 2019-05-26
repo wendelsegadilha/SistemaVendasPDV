@@ -6,8 +6,18 @@
 package DAO;
 
 import conexoes.ConexaoMySql;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import javax.swing.JOptionPane;
 import model.ModelProduto;
+import net.sf.jasperreports.engine.JRResultSetDataSource;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -105,7 +115,7 @@ public class DaoProduto extends ConexaoMySql {
         }
         return modelProduto;
     }
-    
+
     /**
      * Retorna um produto pelo código
      *
@@ -168,8 +178,37 @@ public class DaoProduto extends ConexaoMySql {
                 this.executarUpdateDeleteSQL("UPDATE tbl_produto SET "
                         + "pro_estoque = '" + pListaModelProdutos.get(i).getProEstoque() + "'"
                         + " WHERE pk_id_produto = '" + pListaModelProdutos.get(i).getIdProduto() + "'"
-                ); 
+                );
             }
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        } finally {
+            this.fecharConexao();
+        }
+    }
+
+    /**
+     * Gera o relatório com todos os produtos
+     *
+     * @return
+     */
+    public boolean gerarRelatorioProdutos() {
+        try {
+            this.conectar();
+            this.executarSQL("SELECT"
+                    + "     tbl_produto.pk_id_produto AS tbl_produto_pk_id_produto,"
+                    + "     tbl_produto.pro_nome AS tbl_produto_pro_nome,"
+                    + "     tbl_produto.pro_valor AS tbl_produto_pro_valor,"
+                    + "     tbl_produto.pro_estoque AS tbl_produto_pro_estoque"
+                    + " FROM"
+                    + "     tbl_produto");
+            
+            JRResultSetDataSource jrRS = new JRResultSetDataSource(getResultSet());
+            JasperPrint jasperPrint = JasperFillManager.fillReport("reports/todosProdutos.jasper", new HashMap<>(), jrRS);
+            //Exibindo o relatŕorio através da class JasperViewer
+            JasperViewer.viewReport(jasperPrint, false);
             return true;
         } catch (Exception e) {
             e.printStackTrace();

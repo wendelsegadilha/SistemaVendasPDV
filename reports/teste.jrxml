@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="teste" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="df565bf2-0de7-41f4-b779-a36c32ae2743">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<queryString>
+		<![CDATA[SELECT
+     tbl_venda.`pk_id_venda` AS tbl_venda_pk_id_venda,
+     tbl_venda.`fk_cliente` AS tbl_venda_fk_cliente,
+     tbl_venda.`ven_data` AS tbl_venda_ven_data,
+     tbl_venda.`ven_valor_liquido` AS tbl_venda_ven_valor_liquido,
+     tbl_venda.`ven_valor_bruto` AS tbl_venda_ven_valor_bruto,
+     tbl_venda.`ven_desconto` AS tbl_venda_ven_desconto,
+     tbl_vendas_produtos.`pk_id_venda_produto` AS tbl_vendas_produtos_pk_id_venda_produto,
+     tbl_vendas_produtos.`fk_produto` AS tbl_vendas_produtos_fk_produto,
+     tbl_vendas_produtos.`fk_venda` AS tbl_vendas_produtos_fk_venda,
+     tbl_vendas_produtos.`ven_pro_valor` AS tbl_vendas_produtos_ven_pro_valor,
+     tbl_vendas_produtos.`ven_pro_quantidade` AS tbl_vendas_produtos_ven_pro_quantidade,
+     tbl_produto.`pk_id_produto` AS tbl_produto_pk_id_produto,
+     tbl_produto.`pro_nome` AS tbl_produto_pro_nome,
+     tbl_produto.`pro_valor` AS tbl_produto_pro_valor,
+     tbl_produto.`pro_estoque` AS tbl_produto_pro_estoque
+FROM
+     `tbl_venda` tbl_venda INNER JOIN `tbl_vendas_produtos` tbl_vendas_produtos ON tbl_venda.`pk_id_venda` = tbl_vendas_produtos.`fk_venda`
+     INNER JOIN `tbl_produto` tbl_produto ON tbl_vendas_produtos.`fk_produto` = tbl_produto.`pk_id_produto`]]>
+	</queryString>
+	<field name="tbl_venda_pk_id_venda" class="java.lang.Integer"/>
+	<field name="tbl_venda_fk_cliente" class="java.lang.Integer"/>
+	<field name="tbl_venda_ven_data" class="java.sql.Date"/>
+	<field name="tbl_venda_ven_valor_liquido" class="java.lang.Double"/>
+	<field name="tbl_venda_ven_valor_bruto" class="java.lang.Double"/>
+	<field name="tbl_venda_ven_desconto" class="java.lang.Double"/>
+	<field name="tbl_vendas_produtos_pk_id_venda_produto" class="java.lang.Integer"/>
+	<field name="tbl_vendas_produtos_fk_produto" class="java.lang.Integer"/>
+	<field name="tbl_vendas_produtos_fk_venda" class="java.lang.Integer"/>
+	<field name="tbl_vendas_produtos_ven_pro_valor" class="java.lang.Double"/>
+	<field name="tbl_vendas_produtos_ven_pro_quantidade" class="java.lang.Integer"/>
+	<field name="tbl_produto_pk_id_produto" class="java.lang.Integer"/>
+	<field name="tbl_produto_pro_nome" class="java.lang.String"/>
+	<field name="tbl_produto_pro_valor" class="java.lang.Double"/>
+	<field name="tbl_produto_pro_estoque" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="26" splitType="Stretch">
+			<staticText>
+				<reportElement x="123" y="0" width="100" height="20" uuid="3a52588e-80be-4cf4-957e-669a5681bdd2"/>
+				<text><![CDATA[Quantidade]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="0" width="100" height="20" uuid="ebbaad64-519a-4e94-a8e7-e97663bc4d81"/>
+				<text><![CDATA[tbl_produto_pro_nome]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="256" y="0" width="100" height="20" uuid="123e4e8f-4ee0-4fe6-b181-66b1481e5883"/>
+				<text><![CDATA[Valor Unitário]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="417" y="0" width="100" height="20" uuid="8a271a50-3de4-420f-a734-8d970378363d"/>
+				<text><![CDATA[Sub-Total]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="123" y="3" width="100" height="20" uuid="9ec9d850-7787-4fe5-9bf1-1f49c17dbbc5"/>
+				<textFieldExpression><![CDATA[$F{tbl_vendas_produtos_ven_pro_quantidade}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="12" y="3" width="100" height="20" uuid="5860f6a6-99ef-4fd9-b0bc-ccbe1c9b6c6b"/>
+				<textFieldExpression><![CDATA[$F{tbl_produto_pro_nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="256" y="5" width="100" height="20" uuid="b03d8356-9bfc-421c-8864-a1ec08f9c1e1"/>
+				<textFieldExpression><![CDATA[$F{tbl_vendas_produtos_ven_pro_valor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="417" y="3" width="100" height="20" uuid="21a24fd2-57e8-42dd-9f66-ed2a3b66d133"/>
+				<textFieldExpression><![CDATA[$F{tbl_vendas_produtos_ven_pro_quantidade}.doubleValue() * $F{tbl_vendas_produtos_ven_pro_valor}.doubleValue()]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

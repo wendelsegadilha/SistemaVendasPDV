@@ -5,20 +5,29 @@
  */
 package view;
 
+import controller.ControllerProduto;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Wendel
  */
 public class ViewPrincipal extends javax.swing.JFrame {
-
+    
+    ControllerProduto controllerProduto;
+    String hora;
     /**
      * Creates new form ViewPrincipal
      */
+    
     public ViewPrincipal() {
         initComponents();
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        controllerProduto = new ControllerProduto();
+        timer1.start();
 
     }
 
@@ -31,6 +40,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        timer1 = new org.netbeans.examples.lib.timerbean.Timer();
         uJPanelImagem1 = new componentes.UJPanelImagem();
         jPanel1 = new javax.swing.JPanel();
         jButtonUsuários = new javax.swing.JButton();
@@ -40,7 +50,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jButtonProdutos1 = new javax.swing.JButton();
         jButtonPDV = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabelHora = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenuCadastros = new javax.swing.JMenu();
@@ -48,7 +58,16 @@ public class ViewPrincipal extends javax.swing.JFrame {
         jMenuItemProdutos = new javax.swing.JMenuItem();
         jMenuItemUsuarios = new javax.swing.JMenuItem();
         jMenuVendas = new javax.swing.JMenu();
+        jMenuRelatório = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         jMenuSair = new javax.swing.JMenu();
+
+        timer1.addTimerListener(new org.netbeans.examples.lib.timerbean.TimerListener() {
+            public void onTime(java.awt.event.ActionEvent evt) {
+                timer1OnTime(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("WS Vendas - Sistema de Vendas e Controle de Estoque");
@@ -164,29 +183,32 @@ public class ViewPrincipal extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel1.setText("USUÁRIO LOGADO:");
+        jLabelHora.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
-        jLabel2.setText("HORA E DATA");
+        jLabel2.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        jLabel2.setText("Hora:");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelHora, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jLabel2))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabelHora, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout uJPanelImagem1Layout = new javax.swing.GroupLayout(uJPanelImagem1);
@@ -200,7 +222,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
             uJPanelImagem1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(uJPanelImagem1Layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 383, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 371, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -255,6 +277,29 @@ public class ViewPrincipal extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMenuVendas);
 
+        jMenuRelatório.setText("RELATÓRIOS");
+        jMenuRelatório.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+
+        jMenuItem1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jMenuItem1.setText("VENDAS");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenuRelatório.add(jMenuItem1);
+
+        jMenuItem2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jMenuItem2.setText("PRODUTOS");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenuRelatório.add(jMenuItem2);
+
+        jMenuBar1.add(jMenuRelatório);
+
         jMenuSair.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/iconfinder_Cancel_1493282.png"))); // NOI18N
         jMenuSair.setText("SAIR");
         jMenuSair.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
@@ -303,7 +348,7 @@ public class ViewPrincipal extends javax.swing.JFrame {
 
     private void jMenuItemProdutosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemProdutosActionPerformed
         // TODO add your handling code here:
-        new ViewProduto().setVisible(true);
+       new ViewProduto().setVisible(true);
     }//GEN-LAST:event_jMenuItemProdutosActionPerformed
 
     private void jMenuItemUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemUsuariosActionPerformed
@@ -338,6 +383,40 @@ public class ViewPrincipal extends javax.swing.JFrame {
         new ViewPDV().setVisible(true);
     }//GEN-LAST:event_jButtonPDVActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        
+        ViewRelatorioVendas viewRelatorioVendas = new ViewRelatorioVendas();
+        viewRelatorioVendas.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        final ViewAguarde viewAguarde = new ViewAguarde();
+        viewAguarde.setVisible(true);
+        Thread t = new Thread() {
+            public void run() {
+                try {
+                    controllerProduto.gerarRelatorioProdutos();
+                    viewAguarde.dispose();
+                } catch (Exception e) {
+                     JOptionPane.showMessageDialog(null, "ERRO AO IMPRIMIR RELATÓRIO!\n" + e.getMessage(), "MANUTENÇÃO DE PRODUTOS", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        };
+        t.start();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void timer1OnTime(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_timer1OnTime
+        le_hora();
+        jLabelHora.setText(hora);
+        
+    }//GEN-LAST:event_timer1OnTime
+
+    public void le_hora(){
+       SimpleDateFormat formataHora = new SimpleDateFormat("HH:mm:ss");
+       Date horaAtual = new Date();
+       hora = formataHora.format(horaAtual);
+   }
+    
     /**
      * @param args the command line arguments
      */
@@ -379,18 +458,22 @@ public class ViewPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton jButtonProdutos;
     private javax.swing.JButton jButtonProdutos1;
     private javax.swing.JButton jButtonUsuários;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabelHora;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuCadastros;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItemClientes;
     private javax.swing.JMenuItem jMenuItemProdutos;
     private javax.swing.JMenuItem jMenuItemUsuarios;
+    private javax.swing.JMenu jMenuRelatório;
     private javax.swing.JMenu jMenuSair;
     private javax.swing.JMenu jMenuVendas;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private org.netbeans.examples.lib.timerbean.Timer timer1;
     private componentes.UJPanelImagem uJPanelImagem1;
     // End of variables declaration//GEN-END:variables
 }

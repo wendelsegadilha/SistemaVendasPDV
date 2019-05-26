@@ -290,7 +290,7 @@ public class ViewPagamentoPDV extends javax.swing.JDialog {
     private void jButtonConfirmaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonConfirmaActionPerformed
         // TODO add your handling code here:
         this.desconto = Float.parseFloat(jFormattedTextFieldDesconto.getText());
-        this.valorRecebido = Float.parseFloat(jFormattedTextFieldValorRecebido.getText());
+        this.setValorRecebido(Float.parseFloat(jFormattedTextFieldValorRecebido.getText()));
         this.troco = Float.parseFloat(jTextFieldTroco.getText());
         this.valorTotal = Float.parseFloat(jTextFieldValorTotal.getText());
         this.formaPagamento = jComboBoxFormaPagamento.getSelectedItem().toString();

@@ -150,14 +150,17 @@ public class ViewPDV extends javax.swing.JFrame {
 
         jLabelCaixa.setBackground(new java.awt.Color(204, 204, 204));
         jLabelCaixa.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabelCaixa.setForeground(new java.awt.Color(255, 0, 0));
         jLabelCaixa.setText("01");
 
         jLabelOperador.setBackground(new java.awt.Color(204, 204, 204));
         jLabelOperador.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabelOperador.setForeground(new java.awt.Color(255, 0, 0));
         jLabelOperador.setText("Operador");
 
         jLabelSatus.setBackground(new java.awt.Color(204, 204, 204));
         jLabelSatus.setFont(new java.awt.Font("Tahoma", 1, 16)); // NOI18N
+        jLabelSatus.setForeground(new java.awt.Color(255, 0, 0));
         jLabelSatus.setText("status caixa");
 
         javax.swing.GroupLayout panel4Layout = new javax.swing.GroupLayout(panel4);
@@ -210,22 +213,22 @@ public class ViewPDV extends javax.swing.JFrame {
         jTextFieldBruto.setDisabledTextColor(new java.awt.Color(204, 0, 0));
         jTextFieldBruto.setEnabled(false);
 
-        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel9.setText("COMANDOS:");
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel10.setText("F3 - INFORMAR QUANTIDADE");
 
-        jLabel11.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel11.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel11.setText("F4 - EXCLUIR ITEM");
 
-        jLabel12.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel12.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel12.setText("F5 - FECHAR VENDA");
 
-        jLabel13.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel13.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel13.setText("F6 - SAIR");
 
-        jLabel14.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel14.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel14.setText("F1 - PESQUISAR ITEM");
 
         javax.swing.GroupLayout panel5Layout = new javax.swing.GroupLayout(panel5);
@@ -258,7 +261,7 @@ public class ViewPDV extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTextFieldBruto, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 77, Short.MAX_VALUE)
                 .addComponent(jLabel9)
                 .addGap(15, 15, 15)
                 .addComponent(jLabel14)
@@ -294,7 +297,7 @@ public class ViewPDV extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jTableProdutos.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jTableProdutos.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jTableProdutos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -566,30 +569,44 @@ public class ViewPDV extends javax.swing.JFrame {
         hora = formata.format(tempoAtual);
 
         String conteudoImprimir = "";
+        int numeroVenda = 0;
 
         for (int i = 0; i < listaModelVendasProdutos.size(); i++) {
             conteudoImprimir += listaModelVendasProdutos.get(i).getProduto() + "    "
                     + listaModelVendasProdutos.get(i).getVenProQuantidade() + "     "
                     + listaModelVendasProdutos.get(i).getVenProValor() + "    "
                     + listaModelVendasProdutos.get(i).getNomeProduto() + "\n\r";
+            
+            numeroVenda += listaModelVendasProdutos.get(i).getVenda();
         }
+        for (int i = 1; i < listaModelVendasProdutos.size(); i++) {
+            
+            numeroVenda = listaModelVendasProdutos.get(i).getVenda();
+            System.out.println(numeroVenda);
+        }
+        
         this.imprimir(
                   "EXCLUSIVA MODAS                                 \n\r"
-                + "RUA DO COMERCIO 123, CENTRO                     \n\r"
-                + "CNPJ 00.000.000/0001-00                         \n\r"
+                + "RUA DO COMERCIO 245, CENTRO, SANTA INES - MA    \n\r"
+                + "CONTATO (98)98495-7066                          \n\r"
                 + "Data: " + data + "             Hora: " + hora +"\n\r"
+                + "NUMERO DA VENDA: " + numeroVenda +              "\n\r"
                 + "------------------------------------------------\n\r"
                 + "                SEM VALOR FISCAL                \n\r"
                 + "------------------------------------------------\n\r"
                 + "COD  QTD   PRECO   DESCRICAO                    \n\r"
                 + conteudoImprimir +                              "\n\r"
                 + "------------------------------------------------\n\r"
-                + "   SUBTOTAL: " + modelVenda.getVenValorBruto()+"\n\r"
-                + "   DESCONTO: " + modelVenda.getVenDesconto() + "\n\r"
-                + "VALOR TOTAL: " + modelVenda.getVenValorLiquido() + "\n\r"
+                + "SUBTOTAL R$: " + modelVenda.getVenValorBruto() +"    " + "VALOR RECEBIDO R$: " + this.viewPagamentoPDV.getValorRecebido() + "\n\r"
+                
+                + "DESCONTO R$: " + modelVenda.getVenDesconto()   +"     " + "TROCO R$: " + this.viewPagamentoPDV.getTroco()+ "\n\r"
+           
+                + "VALOR TOTAL R$: " + modelVenda.getVenValorLiquido() + "\n\r"
                 + "------------------------------------------------\n\r"
-                + "      TROCA SOMENTE EM ATE 7 DIAS E COM A NOTA  \n\r"
-                + "\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\f"
+                + "   TROCA SOMENTE EM ATE 7 DIAS E COM A NOTA  \n\r"
+                + "\n\r\n\r\n\r\n\r\n\r\n\r\n\r\f"
+                
+                
         );
     }
 

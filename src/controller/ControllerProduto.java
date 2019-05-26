@@ -78,6 +78,10 @@ public class ControllerProduto {
     public boolean alterarEstoqueProdutoController(ArrayList<ModelProduto> pListaModelProdutos) {
         return this.daoProduto.alterarEstoqueProdutoDAO(pListaModelProdutos);
     }
+
+    public boolean gerarRelatorioProdutos() {
+       return this.daoProduto.gerarRelatorioProdutos();
+    }
     
     
 }

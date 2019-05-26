@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Produtos" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d8c2c929-c5ed-4d93-bce9-29caa471da1e">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="titulo" fontName="Arial" fontSize="28" isBold="true"/>
+	<style name="coluna" fontName="Arial" fontSize="12" isBold="true"/>
+	<style name="detalhes" fontName="Arial" fontSize="12"/>
+	<style name="row">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style backcolor="#FFCC99"/>
+		</conditionalStyle>
+	</style>
+	<queryString>
+		<![CDATA[SELECT
+     tbl_produto.`pk_id_produto` AS tbl_produto_pk_id_produto,
+     tbl_produto.`pro_nome` AS tbl_produto_pro_nome,
+     tbl_produto.`pro_valor` AS tbl_produto_pro_valor,
+     tbl_produto.`pro_estoque` AS tbl_produto_pro_estoque
+FROM
+     `tbl_produto` tbl_produto]]>
+	</queryString>
+	<field name="tbl_produto_pk_id_produto" class="java.lang.Integer"/>
+	<field name="tbl_produto_pro_nome" class="java.lang.String"/>
+	<field name="tbl_produto_pro_valor" class="java.lang.Double"/>
+	<field name="tbl_produto_pro_estoque" class="java.lang.Integer"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="95" splitType="Stretch">
+			<staticText>
+				<reportElement style="titulo" x="61" y="8" width="240" height="39" uuid="d29662ef-6079-4514-9a53-2bc8f58670cd"/>
+				<text><![CDATA[Exclusiva Modas]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="94" width="555" height="1" uuid="35253ae6-c0b7-4f63-9208-a77dbc905697"/>
+			</line>
+			<staticText>
+				<reportElement style="detalhes" x="0" y="74" width="151" height="20" uuid="ec3bd576-da56-4f32-b93e-5b11635cf2c4"/>
+				<text><![CDATA[Contato: (98) 98465 - 7066]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="detalhes" x="0" y="53" width="302" height="20" uuid="175dc579-daa4-4c1d-a619-3b432ddc630e"/>
+				<text><![CDATA[Rua do Comércio 245, Centro, Santa Inês - MA ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="detalhes" x="374" y="73" width="181" height="20" uuid="d9836536-882d-4b98-98e4-b83225ef9cec"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[RELATÓRIO DE PRODUTOS]]></text>
+			</staticText>
+			<image>
+				<reportElement x="2" y="2" width="50" height="50" uuid="9d9f87db-8eb9-4754-b75b-959ed6613692"/>
+				<imageExpression><![CDATA["logo.png"]]></imageExpression>
+			</image>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="315" y="2" width="240" height="15" uuid="10d3f0c9-350f-4a00-bf9c-277d9e7cfae6"/>
+				<textElement textAlignment="Right">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="20" forecolor="#CCCCCC" backcolor="#CCCCCC" uuid="dd431e54-f6fc-498d-9030-f4198c4e265e"/>
+			</rectangle>
+			<staticText>
+				<reportElement style="coluna" x="88" y="0" width="152" height="20" uuid="eb5ac95f-10da-4e39-a62a-d715fffe6a8e"/>
+				<text><![CDATA[NOME DO PRODUTO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="coluna" x="254" y="0" width="100" height="20" uuid="8b3f82c8-3b92-479e-9c7e-ce838cbd28ac"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[VALOR R$]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="coluna" x="372" y="0" width="100" height="20" uuid="4daafaf5-6895-4816-bbe3-361355b091c5"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[QUANTIDADE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="coluna" x="4" y="0" width="69" height="20" uuid="4015a6b7-80e1-4770-87b5-86bd6e3b0cb3"/>
+				<text><![CDATA[CÓDIGO]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<frame>
+				<reportElement style="row" mode="Opaque" x="0" y="0" width="555" height="15" uuid="32e7f1c6-a60a-4ed0-aa51-eb14f6343ce4"/>
+			</frame>
+			<textField>
+				<reportElement style="detalhes" x="88" y="0" width="152" height="15" uuid="b211811f-a072-4495-bfba-c1036e43a7bf"/>
+				<textFieldExpression><![CDATA[$F{tbl_produto_pro_nome}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="detalhes" x="254" y="0" width="100" height="15" uuid="c277ae46-4d2b-4947-8b31-9a30242b22be"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{tbl_produto_pro_valor}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="detalhes" x="372" y="0" width="100" height="15" uuid="ca158e1c-b6fb-4f51-ac4b-54b560c80740"/>
+				<textElement textAlignment="Center"/>
+				<textFieldExpression><![CDATA[$F{tbl_produto_pro_estoque}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="detalhes" x="4" y="0" width="69" height="15" uuid="e9098c19-a5ac-4b7b-8ee1-af8cf2f254e8"/>
+				<textFieldExpression><![CDATA[$F{tbl_produto_pk_id_produto}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<pageFooter>
+		<band height="16" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="15" forecolor="#CCCCCC" backcolor="#CCCCCC" uuid="4e943d8a-35fd-43ad-b3f6-bac94d22be9f"/>
+			</rectangle>
+			<textField>
+				<reportElement style="detalhes" x="455" y="0" width="100" height="15" uuid="37453f02-71ef-4b6a-8b27-b8fa4f4d64f0"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement style="detalhes" x="0" y="0" width="240" height="15" uuid="cd268fe3-ef8d-406d-9285-6f23db30622a"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+</jasperReport>
